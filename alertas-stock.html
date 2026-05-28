@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FET | Alertas de Stock</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="frontend/css/base.css">
+  <link rel="stylesheet" href="frontend/css/pages/alertas-stock.css">
+</head>
+<body>
+  <input type="checkbox" id="theme-toggle" hidden>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-area">
+        <div></div>
+        <div class="logo-text">
+          <span class="logo-fet"><img src="frontend/assets/img/logo.png" alt="logo"></span>
+          <span class="logo-sub">Equipos Deportivos</span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <div class="nav-category">Panel Principal</div>
+        <ul><li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li></ul>
+        <div class="nav-category">Gestión de Equipos</div>
+        <ul>
+          <li><a href="equipos.html"><i class="fas fa-tshirt"></i><span>Equipos Deportivos</span></a></li>
+          <li><a href="prestamos.html"><i class="fas fa-hand-holding-heart"></i><span>Préstamos de Equipos</span></a></li>
+          <li><a href="facturas.html"><i class="fas fa-file-invoice"></i><span>Registro de Facturas</span></a></li>
+          <li><a href="proveedores.html"><i class="fas fa-truck"></i><span>Proveedores</span></a></li>
+        </ul>
+        <div class="nav-category">Movimientos</div>
+        <ul>
+          <li><a href="entradas-salidas.html"><i class="fas fa-exchange-alt"></i><span>Entradas y Salidas</span></a></li>
+          <li class="active"><a href="alertas-stock.html"><i class="fas fa-exclamation-triangle"></i><span>Alertas de Stock</span></a></li>
+          <li><a href="solicitudes.html"><i class="fas fa-clipboard-list"></i><span>Solicitudes de Equipos</span></a></li>
+        </ul>
+        <div class="nav-category">Cuenta</div>
+        <ul>
+          <li><a href="perfil.html"><i class="fas fa-user-circle"></i><span>Perfil</span></a></li>
+          <li><a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="coordinator-info">
+          <i class="fas fa-user-graduate"></i>
+          <div><p>Prof. Carlos Martínez</p><span>Coordinador de Equipos</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="page-title">
+          <h1>Alertas de Stock de Equipos</h1>
+          <p>Monitoreo de niveles críticos de inventario de equipos deportivos</p>
+        </div>
+        <div class="header-actions">
+          <label for="theme-toggle" class="theme-switch">
+            <i class="fas fa-sun theme-icon light-icon"></i>
+            <i class="fas fa-moon theme-icon dark-icon"></i>
+            <span class="toggle-slider"></span>
+          </label>
+          <div class="profile-badge">
+            <i class="fas fa-bell"></i>
+            <a href="perfil.html" class="avatar-link"><div class="avatar"><span>CM</span></div></a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Tarjetas de estadísticas -->
+      <div class="stats-cards-alertas">
+        <div class="stat-card-alerta">
+          <div class="stat-number" id="totalAlertas">0</div>
+          <div class="stat-label">Alertas Activas</div>
+          <span class="stat-sub">Requieren atención</span>
+        </div>
+        <div class="stat-card-alerta">
+          <div class="stat-number" id="alertasCriticas">0</div>
+          <div class="stat-label">Críticas</div>
+          <span class="stat-sub">Stock bajo mínimo</span>
+        </div>
+        <div class="stat-card-alerta">
+          <div class="stat-number" id="alertasMediaAlta">0</div>
+          <div class="stat-label">Media/Alta</div>
+          <span class="stat-sub">Requiere monitoreo</span>
+        </div>
+        <div class="stat-card-alerta">
+          <div class="stat-number" id="alertasAtendidas">0</div>
+          <div class="stat-label">Atendidas (Mes)</div>
+          <span class="stat-sub">Reposiciones realizadas</span>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda y filtros -->
+      <div class="search-bar-alertas">
+        <div class="search-input-alertas">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchAlertaInput" placeholder="Buscar por equipo o categoría...">
+        </div>
+        <div class="filter-group-alertas">
+          <select id="prioridadFilter" class="filter-select-alerta">
+            <option value="">Todas las prioridades</option>
+            <option value="Crítica">Crítica</option>
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
+          </select>
+          <select id="estadoAlertaFilter" class="filter-select-alerta">
+            <option value="">Todos los estados</option>
+            <option value="Activa">Activa</option>
+            <option value="Atendida">Atendida</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tabla de alertas -->
+      <div class="alertas-table-container">
+        <table class="alertas-table">
+          <thead>
+            <tr><th>Equipo</th><th>Categoría</th><th>Stock</th><th>Nivel</th><th>Prioridad</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="alertasTableBody">
+            <tr><td colspan="8" style="text-align: center;">Cargando alertas...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginación -->
+      <div class="pagination">
+        <div class="pagination-info" id="paginationInfo">Mostrando 0 de 0 alertas</div>
+        <div class="pagination-buttons" id="paginationButtons"></div>
+      </div>
+
+      <footer class="dashboard-footer">
+        <div class="footer-left"><i class="fas fa-copyright"></i> 2025 Sistema FET - Gestión de Equipos Deportivos</div>
+        <div class="footer-right"><span>v2.4.0</span><span>·</span><span><i class="fas fa-shield-alt"></i> Datos en tiempo real</span></div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="frontend/js/config.js"></script>
+  <script src="frontend/js/alertas.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getCurrentUser();
+      if (user) {
+        const coordinatorName = document.querySelector('.coordinator-info p');
+        if (coordinatorName) coordinatorName.textContent = user.nombre || 'Usuario';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FET Dashboard | Gestión de Equipos Deportivos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="frontend/css/base.css">
+  <link rel="stylesheet" href="frontend/css/pages/dashboard.css">
+  <script src="frontend/js/config.js"></script>
+  <script src="frontend/js/dashboard.js"></script>
+</head>
+<body>
+  <input type="checkbox" id="theme-toggle" hidden>
+
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="logo-area">
+        <div></div>
+        <div class="logo-text">
+          <span class="logo-fet"><img src="frontend/assets/img/logo.png" alt="logo"></span>
+          <span class="logo-sub">Equipos Deportivos</span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <div class="nav-category">Panel Principal</div>
+        <ul><li class="active"><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li></ul>
+        <div class="nav-category">Gestión de Equipos</div>
+        <ul>
+          <li><a href="equipos.html"><i class="fas fa-tshirt"></i><span>Equipos Deportivos</span></a></li>
+          <li><a href="prestamos.html"><i class="fas fa-hand-holding-heart"></i><span>Préstamos de Equipos</span></a></li>
+          <li><a href="facturas.html"><i class="fas fa-file-invoice"></i><span>Registro de Facturas</span></a></li>
+          <li><a href="proveedores.html"><i class="fas fa-truck"></i><span>Proveedores</span></a></li>
+        </ul>
+        <div class="nav-category">Movimientos</div>
+        <ul>
+          <li><a href="entradas-salidas.html"><i class="fas fa-exchange-alt"></i><span>Entradas y Salidas</span></a></li>
+          <li><a href="alertas-stock.html"><i class="fas fa-exclamation-triangle"></i><span>Alertas de Stock</span></a></li>
+          <li><a href="solicitudes.html"><i class="fas fa-clipboard-list"></i><span>Solicitudes de Equipos</span></a></li>
+        </ul>
+        <div class="nav-category">Cuenta</div>
+        <ul>
+          <li><a href="perfil.html"><i class="fas fa-user-circle"></i><span>Perfil</span></a></li>
+          <li><a href="login.html" id="logout-link"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="coordinator-info">
+          <i class="fas fa-user-graduate"></i>
+          <div><p>Prof. Carlos Martínez</p><span>Coordinador de Equipos</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="page-title">
+          <h1>Panel de Control</h1>
+          <p>Vista general del inventario y préstamos deportivos</p>
+        </div>
+        <div class="header-actions">
+          <label for="theme-toggle" class="theme-switch">
+            <i class="fas fa-sun theme-icon light-icon"></i>
+            <i class="fas fa-moon theme-icon dark-icon"></i>
+            <span class="toggle-slider"></span>
+          </label>
+          <div class="profile-badge">
+            <i class="fas fa-bell"></i>
+            <a href="perfil.html" class="avatar-link"><div class="avatar"><span>CM</span></div></a>
+          </div>
+        </div>
+      </header>
+
+      <!-- KPI CARDS ROW -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon green-bg"><i class="fas fa-baseball-ball"></i></div>
+          <div class="kpi-info">
+            <h3 id="totalEquipos">0</h3>
+            <p>Total de Equipos</p>
+            <span class="trend up" id="totalEquiposTrend"><i class="fas fa-arrow-up"></i> vs mes pasado</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon blue-bg"><i class="fas fa-dollar-sign"></i></div>
+          <div class="kpi-info">
+            <h3 id="valorTotalInventario">$0</h3>
+            <p>Valor Total Inventario</p>
+            <span class="trend up" id="valorInventarioTrend"><i class="fas fa-arrow-up"></i> vs mes pasado</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon purple-bg"><i class="fas fa-hand-peace"></i></div>
+          <div class="kpi-info">
+            <h3 id="prestamosActivos">0</h3>
+            <p>Préstamos Activos</p>
+            <span class="trend" id="prestamosActivosTrend">vs mes pasado</span>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon orange-bg"><i class="fas fa-exclamation-circle"></i></div>
+          <div class="kpi-info">
+            <h3 id="equiposBajoStock">0</h3>
+            <p>Equipos Bajo Stock</p>
+            <span class="trend critical" id="equiposBajoStockTrend"><i class="fas fa-arrow-up"></i> vs mes pasado</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TWO COLUMN GRID: Alertas + Movimientos Recientes -->
+      <div class="two-columns">
+        <!-- Stock Alerts -->
+        <div class="card alerts-card">
+          <div class="card-header">
+            <h2><i class="fas fa-bell"></i> Alertas de Stock Mínimo</h2>
+            <span class="badge urgent">Reposición urgente</span>
+          </div>
+          <div class="alerts-list" id="alertasList">
+            <!-- Alertas cargadas dinámicamente -->
+            <div class="alert-item empty-state">No hay alertas activas</div>
+          </div>
+          <div class="card-footer-link">
+            <a href="alertas-stock.html">Ver todas las alertas <i class="fas fa-chevron-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Recent Movements -->
+        <div class="card movements-card">
+          <div class="card-header">
+            <h2><i class="fas fa-history"></i> Movimientos Recientes</h2>
+            <i class="fas fa-ellipsis-h"></i>
+          </div>
+          <div class="movements-list" id="movimientosRecientesList">
+            <!-- Movimientos cargados dinámicamente -->
+            <div class="movement-item empty-state">No hay movimientos recientes</div>
+          </div>
+          <div class="card-footer-link">
+            <a href="entradas-salidas.html">Ver historial completo <i class="fas fa-chevron-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECOND ROW: Estudio de Préstamos + Equipos críticos -->
+      <div class="insight-row-two-cols">
+        <!-- Estudio de Préstamos -->
+        <div class="card insights-card">
+          <div class="card-header">
+            <h2><i class="fas fa-chart-pie"></i> Estudio de Préstamos</h2>
+          </div>
+          <div class="loan-stats">
+            <div class="stat-block">
+              <span class="stat-value" id="loanStatsActivos">0</span>
+              <span class="stat-label">Préstamos Activos</span>
+            </div>
+            <div class="stat-block">
+              <span class="stat-value" id="loanStatsPendientes">0</span>
+              <span class="stat-label">Devoluciones Pendientes</span>
+            </div>
+            <div class="stat-block">
+              <span class="stat-value" id="loanStatsDisponibles">0</span>
+              <span class="stat-label">Disponibles para Préstamo</span>
+            </div>
+          </div>
+          <div class="progress-info">
+            <div class="progress-label">
+              <span>Capacidad utilizada</span>
+              <span id="capacidadUtilizada">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-fill" id="capacidadProgressFill" style="width:0%"></div>
+            </div>
+            <div class="meta-stats">
+              <span><i class="fas fa-clock"></i> <span id="metaVencimiento">Vencen en promedio</span></span>
+              <span><i class="fas fa-chart-line"></i> <span id="metaInventarioDisponible">% inventario disponible</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla compacta de equipos críticos -->
+        <div class="card equipment-table-card">
+          <div class="card-header">
+            <h2><i class="fas fa-clipboard-list"></i> Equipos con bajo stock</h2>
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="compact-table" id="equiposCriticosTable">
+            <div class="table-row header-row">
+              <span>Equipo</span>
+              <span>Stock / Mínimo</span>
+              <span>Estado</span>
+            </div>
+            <div class="table-row empty-state">No hay equipos críticos</div>
+          </div>
+          <div class="card-footer-link">
+            <a href="equipos.html">Gestionar inventario <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <footer class="dashboard-footer">
+        <div class="footer-left"><i class="fas fa-copyright"></i> 2025 Sistema FET - Gestión de Equipos Deportivos</div>
+        <div class="footer-right"><span>v2.4.0</span><span>·</span><span><i class="fas fa-shield-alt"></i> Datos en tiempo real</span></div>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

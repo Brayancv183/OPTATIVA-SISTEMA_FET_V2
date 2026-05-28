@@ -1,0 +1,254 @@
+/* ===== RESET GENERAL ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ===== BODY ===== */
+body {
+  height: 100vh;
+  background: #0f172a; /* respaldo si la imagen falla */
+  overflow: hidden;
+  color: #f1f5f9;
+
+  background-image: url('https://static.vecteezy.com/system/resources/previews/003/534/283/original/modern-green-background-free-vector.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  position: relative;
+}
+
+@keyframes float {
+  to {
+    transform: translate(180px, 120px);
+  }
+}
+
+/* ===== LAYOUT PRINCIPAL ===== */
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== PANEL IZQUIERDO ===== */
+.left-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-box {
+  max-width: 320px;
+  text-align: center;
+  animation: slideIn 1s ease;
+}
+
+.brand-box img {
+  width: 200px;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 8px 16px rgba(16,185,129,0.4));
+}
+
+.brand-box h1 {
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #10b981, #34d399);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 10px;
+}
+
+.brand-box p {
+  color: #94a3b8;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ===== PANEL DERECHO ===== */
+.right-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== CARD LOGIN ===== */
+.card {
+  width: 380px;
+  padding: 40px;
+  border-radius: 24px;
+  background: rgba(30,41,59,0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(16,185,129,0.1);
+  animation: fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+/* ===== INPUTS ===== */
+.input-group {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(15,23,42,0.85);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  color: #f1f5f9;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.15);
+}
+
+.input-group label {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  color: #64748b;
+  font-size: 14px;
+  pointer-events: none;
+  transition: 0.2s;
+}
+
+.input-group input:focus + label,
+.input-group input:valid + label {
+  top: -10px;
+  left: 12px;
+  font-size: 12px;
+  background: #1e293b;
+  padding: 0 6px;
+  color: #10b981;
+}
+
+.focus-border {
+  display: none;
+}
+
+/* ===== FILA OPCIONES ===== */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.check input {
+  display: none;
+}
+
+.check span {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #475569;
+  border-radius: 4px;
+  display: inline-block;
+  transition: 0.2s;
+}
+
+.check input:checked + span {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.link {
+  color: #10b981;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* ===== BOTÓN ===== */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(16,185,129,0.45);
+}
+
+/* ===== ANIMACIÓN PANEL IZQUIERDO ===== */
+@keyframes slideIn {
+  from {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+  .left-panel {
+    display: none;
+  }
+  .card {
+    width: 90%;
+    padding: 32px 24px;
+  }
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FET | Registro de Facturas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="frontend/css/base.css">
+  <link rel="stylesheet" href="frontend/css/pages/facturas.css">
+  <script src="frontend/js/config.js"></script>
+  <script src="frontend/js/facturas.js"></script>
+</head>
+<body>
+  <input type="checkbox" id="theme-toggle" hidden>
+
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-area">
+        <div></div>
+        <div class="logo-text">
+          <span class="logo-fet"><img src="frontend/assets/img/logo.png" alt="logo"></span>
+          <span class="logo-sub">Equipos Deportivos</span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <div class="nav-category">Panel Principal</div>
+        <ul><li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li></ul>
+        <div class="nav-category">Gestión de Equipos</div>
+        <ul>
+          <li><a href="equipos.html"><i class="fas fa-tshirt"></i><span>Equipos Deportivos</span></a></li>
+          <li><a href="prestamos.html"><i class="fas fa-hand-holding-heart"></i><span>Préstamos de Equipos</span></a></li>
+          <li class="active"><a href="facturas.html"><i class="fas fa-file-invoice"></i><span>Registro de Facturas</span></a></li>
+          <li><a href="proveedores.html"><i class="fas fa-truck"></i><span>Proveedores</span></a></li>
+        </ul>
+        <div class="nav-category">Movimientos</div>
+        <ul>
+          <li><a href="entradas-salidas.html"><i class="fas fa-exchange-alt"></i><span>Entradas y Salidas</span></a></li>
+          <li><a href="alertas-stock.html"><i class="fas fa-exclamation-triangle"></i><span>Alertas de Stock</span></a></li>
+          <li><a href="solicitudes.html"><i class="fas fa-clipboard-list"></i><span>Solicitudes de Equipos</span></a></li>
+        </ul>
+        <div class="nav-category">Cuenta</div>
+        <ul>
+          <li><a href="perfil.html"><i class="fas fa-user-circle"></i><span>Perfil</span></a></li>
+          <li><a href="login.html" id="logout-link"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="coordinator-info">
+          <i class="fas fa-user-graduate"></i>
+          <div><p>Prof. Carlos Martínez</p><span>Coordinador de Equipos</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="page-title">
+          <h1>Gestión de Facturas</h1>
+          <p>Registro y validación de facturas de proveedores</p>
+        </div>
+        <div class="header-actions">
+          <label for="theme-toggle" class="theme-switch">
+            <i class="fas fa-sun theme-icon light-icon"></i>
+            <i class="fas fa-moon theme-icon dark-icon"></i>
+            <span class="toggle-slider"></span>
+          </label>
+          <div class="profile-badge">
+            <i class="fas fa-bell"></i>
+            <a href="perfil.html" class="avatar-link"><div class="avatar"><span>CM</span></div></a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Tarjetas de estadísticas -->
+      <div class="stats-cards-facturas">
+        <div class="stat-card-factura">
+          <div class="stat-number" id="totalFacturado">$0</div>
+          <div class="stat-label">Total Facturado</div>
+          <span class="stat-sub">Últimos 30 días</span>
+        </div>
+        <div class="stat-card-factura">
+          <div class="stat-number" id="totalFacturas">0</div>
+          <div class="stat-label">Facturas Registradas</div>
+          <span class="stat-sub">Este trimestre</span>
+        </div>
+        <div class="stat-card-factura">
+          <div class="stat-number" id="facturasPendientes">0</div>
+          <div class="stat-label">Pendientes</div>
+          <span class="stat-sub">Por validar</span>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda -->
+      <div class="search-bar-facturas">
+        <div class="search-input-facturas">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchFacturaInput" placeholder="Buscar por número de factura o proveedor...">
+        </div>
+        <div class="filter-estado">
+          <select id="estadoFacturaFilter">
+            <option value="">Todos los estados</option>
+            <option value="Pendiente">Pendiente</option>
+            <option value="Validada">Validada</option>
+            <option value="Diferencias">Con Diferencias</option>
+          </select>
+        </div>
+        <button class="btn-factura" id="newFacturaBtn"><i class="fas fa-plus"></i> Nueva Factura</button>
+      </div>
+
+      <!-- Tabla de facturas -->
+      <div class="facturas-table-container">
+        <table class="facturas-table">
+          <thead>
+            <tr><th>Número</th><th>Fecha</th><th>Proveedor</th><th>Programa</th><th>Total</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="facturasTableBody">
+            <!-- Las facturas se cargarán dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal / Formulario de factura -->
+      <div id="facturaModal" class="modal-overlay" aria-hidden="true">
+        <div class="modal-container">
+          <div class="modal-header">
+            <h2 id="facturaModalTitle"><i class="fas fa-file-invoice"></i> Nueva factura</h2>
+            <button id="closeFacturaModal" class="modal-close" aria-label="Cerrar">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form id="facturaForm">
+              <div class="form-grid">
+                <div class="form-field">
+                  <label><i class="fas fa-hashtag"></i> Número</label>
+                  <input type="text" id="factura_numero" placeholder="Número de factura" required>
+                </div>
+                <div class="form-field">
+                  <label><i class="fas fa-calendar-alt"></i> Fecha</label>
+                  <input type="date" id="factura_fecha" required>
+                </div>
+                <div class="form-field">
+                  <label><i class="fas fa-truck"></i> Proveedor</label>
+                  <select id="factura_proveedor_id" required>
+                    <option value="">Cargando proveedores...</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label><i class="fas fa-layer-group"></i> Programa</label>
+                  <input type="number" min="1" id="factura_programa_id" placeholder="ID del programa (opcional)">
+                </div>
+                <div class="form-field">
+                  <label><i class="fas fa-info-circle"></i> Estado</label>
+                  <select id="factura_estado">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Validada">Validada</option>
+                    <option value="Diferencias">Con Diferencias</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label><i class="fas fa-sticky-note"></i> Observaciones</label>
+                  <textarea id="factura_observaciones" rows="2"></textarea>
+                </div>
+                <div class="form-field full-width">
+                  <label><i class="fas fa-box-open"></i> Detalles</label>
+                  <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+                    <select id="detalle_equipo_id" style="flex:1;"></select>
+                    <input id="detalle_cantidad" type="number" min="1" placeholder="Cant." style="width:80px;">
+                    <button type="button" id="addDetalleBtn" class="btn-factura">Agregar</button>
+                  </div>
+                  <div id="facturaDetallesList" class="detalles-list"></div>
+                </div>
+                <div class="form-field">
+                  <label><i class="fas fa-calculator"></i> Subtotal</label>
+                  <input type="text" id="factura_subtotal" readonly>
+                </div>
+                <div class="form-field">
+                  <label><i class="fas fa-percent"></i> IVA</label>
+                  <input type="text" id="factura_iva" readonly>
+                </div>
+                <div class="form-field full-width">
+                  <label><i class="fas fa-dollar-sign"></i> Total</label>
+                  <input type="text" id="factura_total" readonly>
+                </div>
+                <div class="form-field full-width">
+                  <label><i class="fas fa-image"></i> Foto de la factura</label>
+                  <div class="file-input-wrapper">
+                    <label class="file-input-label" for="factura_imagen"><i class="fas fa-cloud-upload-alt"></i> Subir imagen</label>
+                    <input type="file" id="factura_imagen" accept="image/*">
+                  </div>
+                  <div id="imagenPreview" class="preview-image" style="display:none;margin-top:10px;">
+                    <img id="previewImg" src="" alt="Vista previa">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="cancelFacturaModal" class="btn-cancel">Cancelar</button>
+            <button type="button" id="saveFacturaBtn" class="btn-save">Guardar factura</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paginación -->
+      <div class="pagination">
+        <div class="pagination-info" id="paginationInfo">Mostrando 0 de 0 facturas</div>
+        <div class="pagination-buttons" id="paginationButtons"></div>
+      </div>
+
+      <footer class="dashboard-footer">
+        <div class="footer-left"><i class="fas fa-copyright"></i> 2025 Sistema FET - Gestión de Equipos Deportivos</div>
+        <div class="footer-right"><span>v2.4.0</span><span>·</span><span><i class="fas fa-shield-alt"></i> Datos en tiempo real</span></div>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FET | Préstamos de Equipos Deportivos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="frontend/css/base.css">
+  <link rel="stylesheet" href="frontend/css/pages/prestamos.css">
+</head>
+<body>
+  <input type="checkbox" id="theme-toggle" hidden>
+
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="logo-area">
+        <div></div>
+        <div class="logo-text">
+          <span class="logo-fet"><img src="frontend/assets/img/logo.png" alt="logo"></span>
+          <span class="logo-sub">Equipos Deportivos</span>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <div class="nav-category">Panel Principal</div>
+        <ul><li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li></ul>
+        <div class="nav-category">Gestión de Equipos</div>
+        <ul>
+          <li><a href="equipos.html"><i class="fas fa-tshirt"></i><span>Equipos Deportivos</span></a></li>
+          <li class="active"><a href="prestamos.html"><i class="fas fa-hand-holding-heart"></i><span>Préstamos de Equipos</span></a></li>
+          <li><a href="facturas.html"><i class="fas fa-file-invoice"></i><span>Registro de Facturas</span></a></li>
+          <li><a href="proveedores.html"><i class="fas fa-truck"></i><span>Proveedores</span></a></li>
+        </ul>
+        <div class="nav-category">Movimientos</div>
+        <ul>
+          <li><a href="entradas-salidas.html"><i class="fas fa-exchange-alt"></i><span>Entradas y Salidas</span></a></li>
+          <li><a href="alertas-stock.html"><i class="fas fa-exclamation-triangle"></i><span>Alertas de Stock</span></a></li>
+          <li><a href="solicitudes.html"><i class="fas fa-clipboard-list"></i><span>Solicitudes de Equipos</span></a></li>
+        </ul>
+        <div class="nav-category">Cuenta</div>
+        <ul>
+          <li><a href="perfil.html"><i class="fas fa-user-circle"></i><span>Perfil</span></a></li>
+          <li><a href="login.html" id="logout-link"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="coordinator-info">
+          <i class="fas fa-user-graduate"></i>
+          <div><p>Prof. Carlos Martínez</p><span>Coordinador de Equipos</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="page-title">
+          <h1>Préstamos de Equipos Deportivos</h1>
+          <p>Gestión completa de préstamos y devoluciones de equipos</p>
+        </div>
+        <div class="header-actions">
+          <label for="theme-toggle" class="theme-switch">
+            <i class="fas fa-sun theme-icon light-icon"></i>
+            <i class="fas fa-moon theme-icon dark-icon"></i>
+            <span class="toggle-slider"></span>
+          </label>
+          <div class="profile-badge">
+            <i class="fas fa-bell"></i>
+            <a href="perfil.html" class="avatar-link"><div class="avatar"><span>CM</span></div></a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Tarjetas de estadísticas -->
+      <div class="stats-cards">
+        <div class="stat-card-prestamo">
+          <div class="stat-number" id="prestamosActivos">0</div>
+          <div class="stat-label">Préstamos Activos</div>
+          <span class="stat-sub">Equipos en préstamo</span>
+        </div>
+        <div class="stat-card-prestamo vencidos">
+          <div class="stat-number" id="prestamosVencidos">0</div>
+          <div class="stat-label">Préstamos Vencidos</div>
+          <span class="stat-sub">Requieren atención</span>
+        </div>
+        <div class="stat-card-prestamo devueltos">
+          <div class="stat-number" id="totalPrestamos">0</div>
+          <div class="stat-label">Total Préstamos</div>
+          <span class="stat-sub">Histórico completo</span>
+        </div>
+        <div class="stat-card-prestamo">
+          <div class="stat-number" id="devueltosMes">0</div>
+          <div class="stat-label">Devueltos (Mes)</div>
+          <span class="stat-sub">Este mes</span>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda y filtros -->
+      <div class="search-bar-prestamos">
+        <div class="search-input-prestamos">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchPrestamoInput" placeholder="Buscar préstamo por equipo, solicitante o ID...">
+        </div>
+        <div class="filter-buttons" id="filterButtons">
+          <button class="filter-btn active" data-filter="todos">Todos</button>
+          <button class="filter-btn" data-filter="Activo">Activos</button>
+          <button class="filter-btn" data-filter="Vencido">Vencidos</button>
+          <button class="filter-btn" data-filter="Devuelto">Devueltos</button>
+        </div>
+      </div>
+
+      <!-- Tabla de préstamos -->
+      <div class="prestamos-table-container">
+        <table class="prestamos-table">
+          <thead>
+            <tr><th>ID</th><th>Equipo</th><th>Solicitante</th><th>F. Préstamo</th><th>F. Devolución</th><th>Estado</th><th>Condición</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="prestamosTableBody">
+            <!-- Los préstamos se cargarán dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginación -->
+      <div class="pagination">
+        <div class="pagination-info" id="paginationInfo">Mostrando 0 de 0 préstamos</div>
+        <div class="pagination-buttons" id="paginationButtons"></div>
+      </div>
+
+      <footer class="dashboard-footer">
+        <div class="footer-left"><i class="fas fa-copyright"></i> 2025 Sistema FET - Gestión de Equipos Deportivos</div>
+        <div class="footer-right"><span>v2.4.0</span><span>·</span><span><i class="fas fa-shield-alt"></i> Datos en tiempo real</span></div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Modal para nuevo préstamo -->
+  <div id="prestamoModal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2><i class="fas fa-hand-holding-heart"></i> Nuevo Préstamo</h2>
+        <button class="modal-close" id="closePrestamoModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="prestamoForm">
+          <div class="form-grid">
+            <div class="form-field full-width">
+              <label><i class="fas fa-tshirt"></i> Equipo *</label>
+              <select id="prestamo_equipo_id" required></select>
+            </div>
+            <div class="form-field full-width">
+              <label><i class="fas fa-user"></i> Nombre del Solicitante *</label>
+              <input type="text" id="prestamo_solicitante_nombre" required>
+            </div>
+            <div class="form-field">
+              <label><i class="fas fa-id-card"></i> Identificación</label>
+              <input type="text" id="prestamo_identificacion">
+            </div>
+            <div class="form-field">
+              <label><i class="fas fa-envelope"></i> Email</label>
+              <input type="email" id="prestamo_email">
+            </div>
+            <div class="form-field">
+              <label><i class="fas fa-calendar-day"></i> Fecha Préstamo *</label>
+              <input type="date" id="prestamo_fecha_prestamo" required>
+            </div>
+            <div class="form-field">
+              <label><i class="fas fa-calendar-week"></i> Fecha Devolución Esperada *</label>
+              <input type="date" id="prestamo_fecha_devolucion" required>
+            </div>
+            <div class="form-field full-width">
+              <label><i class="fas fa-clipboard"></i> Condición del Equipo al Entregar</label>
+              <textarea id="prestamo_condicion" rows="2" placeholder="Ej: En buen estado, recién lavado..."></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" id="cancelPrestamoModal">Cancelar</button>
+        <button class="btn-save" id="savePrestamoBtn">Registrar Préstamo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para devolución -->
+  <div id="returnModal" class="modal-overlay">
+    <div class="modal-container" style="max-width: 500px;">
+      <div class="modal-header">
+        <h2><i class="fas fa-undo-alt"></i> Registrar Devolución</h2>
+        <button class="modal-close" id="closeReturnModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-field full-width">
+          <label><i class="fas fa-clipboard-list"></i> Condición del equipo al devolver</label>
+          <textarea id="return_condicion" rows="3" placeholder="Ej: Buen estado, golpeado, faltante..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" id="cancelReturnBtn">Cancelar</button>
+        <button class="btn-save" id="confirmReturnBtn">Registrar Devolución</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="frontend/js/config.js"></script>
+  <script src="frontend/js/prestamos.js"></script>
+</body>
+</html>
